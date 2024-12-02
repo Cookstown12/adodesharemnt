@@ -1,23 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import SecondPage from "./SecondPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-dobe-img">
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <SecondPage />
+      </div>
     </div>
   );
 }
