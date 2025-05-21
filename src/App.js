@@ -1,17 +1,17 @@
-import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import FirstPage from "./FirstPage";
 import SecondPage from "./SecondPage";
+import ThirdPage from "./ThirdPage";
 
 function App() {
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-dobe-img">
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-70"></div>
-
-      {/* Content */}
-      <div className="relative z-10">
-        <SecondPage />
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<FirstPage />} />
+        <Route path="/step-two" element={<SecondPage />} />
+        <Route path="/step-three" element={<ThirdPage />} />
+      </Routes>
+    </Router>
   );
 }
 
